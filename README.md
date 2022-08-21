@@ -2,7 +2,7 @@
 
 Demo app based on [Solid Hackernews](https://github.com/solidjs/solid-hackernews).
 
-You can view it [here](https://astro-hackernews.pages.dev/).
+You can view it [here](https://astro-hackernews.netlify.app/).
 
 ## Developing
 
