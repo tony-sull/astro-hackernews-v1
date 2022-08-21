@@ -11,7 +11,7 @@ const { comment } = Astro.props;
   <div class="text" set:html={comment.content}/>
   {
     comment.comments.length ? (
-      <Toggle>
+      <Toggle count={comment.comments.length}>
         {
           comment.comments.map(nested => <Astro.self comment={nested} />)
         }

@@ -1,9 +1,13 @@
-<hn-toggle open>
-    <a>[-]</a>
-    <ul class="comment-children">
-      <slot />
-    </ul>
+---
+const { count } = Astro.props;
+---
+
+<hn-toggle open count={count} class="toggle open">
+        <a>[-]</a>
   </hn-toggle>
+  <ul class="comment-children">
+    <slot />
+  </ul>
 
 <script>
     class HnToggle extends HTMLElement {
@@ -15,7 +19,7 @@
 
         attributeChangedCallback(name: string, oldValue: string, newValue: string) {
             if (!this.button) return
-            this.button.textContent = newValue === '' ? '[-]' : '[+] comments collapsed'
+            this.button.textContent = newValue === '' ? '[-]' : `[+] ${this.count} collapsed`
         }      
 
         get button() {
@@ -30,6 +34,12 @@
             value
                 ? this.setAttribute('open', '')
                 : this.removeAttribute('open')
+            this.classList.toggle('open', value)
+        }
+
+        get count() {
+            const n = +(this.getAttribute('count') || 0);
+            return `${n} ${n === 1 ? 'reply' : 'replies'}`;
         }
 
         toggle() {
@@ -41,19 +51,11 @@
 </script>
 
 <style>
-    hn-toggle a {
-      content: "[-]";
+    hn-toggle {
+        display: block;
     }
-  
-    hn-toggle[open] a {
-      content: "[+] comments collapsed";
-    }
-  
-    hn-toggle .comment-children {
+
+    hn-toggle:not([open]) + .comment-children {
       display: none;
-    }
-  
-    hn-toggle[open] .comment-children {
-      display: block;
     }
 </style>
