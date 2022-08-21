@@ -1,0 +1,59 @@
+<hn-toggle open>
+    <a>[-]</a>
+    <ul class="comment-children">
+      <slot />
+    </ul>
+  </hn-toggle>
+
+<script>
+    class HnToggle extends HTMLElement {
+        static get observedAttributes() { return ['open']; }
+
+        connectedCallback() {
+            this.addEventListener('click', this.toggle.bind(this))
+        }
+
+        attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+            if (!this.button) return
+            this.button.textContent = newValue === '' ? '[-]' : '[+] comments collapsed'
+        }      
+
+        get button() {
+            return this.querySelector('a')
+        }
+
+        get open() {
+            return this.hasAttribute('open')
+        }
+
+        set open(value) {
+            value
+                ? this.setAttribute('open', '')
+                : this.removeAttribute('open')
+        }
+
+        toggle() {
+            this.open = !this.open
+        }
+    }
+
+    customElements.define('hn-toggle', HnToggle)
+</script>
+
+<style>
+    hn-toggle a {
+      content: "[-]";
+    }
+  
+    hn-toggle[open] a {
+      content: "[+] comments collapsed";
+    }
+  
+    hn-toggle .comment-children {
+      display: none;
+    }
+  
+    hn-toggle[open] .comment-children {
+      display: block;
+    }
+</style>

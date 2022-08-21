@@ -4,7 +4,7 @@ import Layout from "../layouts/Base.astro";
 
 import { getStories } from "../lib/api.js";
 
-const type = "top";
+const type = Astro.params.type || "top";
 const url = new URL(Astro.request.url);
 const page = +(url.searchParams.get("page") || 1);
 const stories = await getStories(type, page);
